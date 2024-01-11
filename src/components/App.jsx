@@ -1,6 +1,5 @@
 import css from './Styles.module.css';
 import { Component } from 'react';
-
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Searchbar } from './Searchbar/Serchbar';
 import { Button } from './Button/Button';
@@ -19,13 +18,26 @@ export class App extends Component {
     selectedImage: '',
     loadMore: true,
   };
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      this.state.page !== prevState.page ||
+      this.state.searchTerm !== prevState.searchTerm
+    ) {
+      this.handleSearch();
+    }
+  }
+    loadMoreHandler = () => {
+    this.setState(
+      prevState => ({ page: prevState.page + 1 })
+    );
+  };
 
   handleSearch = async () => {
     const { searchTerm, page } = this.state;
 
     try {
-      this.setState({ isLoading: true });
-
+      this.setState({ isLoading: true, images: [], page: 1 });
+      
       const data = await fetchData(searchTerm, page);
 
       this.setState(prevState => ({
@@ -38,12 +50,7 @@ export class App extends Component {
     }
   };
 
-  loadMoreHandler = () => {
-    this.setState(
-      prevState => ({ page: prevState.page + 1 })
-      // this.handleSearch
-    );
-  };
+
 
   openModal = largeImageURL => {
     this.setState({ selectedImage: largeImageURL, showModal: true });
@@ -67,14 +74,7 @@ export class App extends Component {
     document.removeEventListener('keydown', this.handleKeyDown);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      this.state.page !== prevState.page ||
-      this.state.searchTerm !== prevState.searchTerm
-    ) {
-      this.handleSearch();
-    }
-  }
+
 
   render() {
     const { images, isLoading, showModal, selectedImage, loadMore } =
