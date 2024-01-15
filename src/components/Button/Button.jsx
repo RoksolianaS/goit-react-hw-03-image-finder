@@ -1,13 +1,11 @@
 import React from 'react';
 import css from './Button.module.css';
 
-const Button = ({ onClick }) => {
+const Button = ({ handleLoadMore }) => {
   return (
-    <div className={css.loadBtnContainer}>
-      <button className={css.loadeButton} type="button" onClick={onClick}>
-        Load More
-      </button>
-    </div>
+    <button className={css.Button} type="button" onClick={handleLoadMore}>
+      Load more
+    </button>
   );
 };
 

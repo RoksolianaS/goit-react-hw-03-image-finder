@@ -1,19 +1,12 @@
 import axios from 'axios';
 
-const fetchData = async (searchTerm, page) => {
-  try {
+export const fetchData = async (query, page) => {
+
     const apiKey = '40761199-2a581aabd1a90035494e0f1fc';
-    const perPage = 12;
 
     const { data } = await axios.get(
-      `https://pixabay.com/api/?q=${searchTerm}&page=${page}&key=${apiKey}&image_type=photo&orientation=horizontal&per_page=${perPage}`
+      `https://pixabay.com/api/?q=${query}&page=${page}&key=${apiKey}&image_type=photo&orientation=horizontal&per_page=12`
     );
 
     return data;
-  } catch (error) {
-    console.error('Error fetching images:', error);
-    throw error;
-  }
-};
-
-export { fetchData };
+  };
